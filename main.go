@@ -3,19 +3,21 @@ package wordcount
 import (
 	"encoding/json"
 	"net/http"
+	"regexp"
+
+	"wordcount/logic"
 )
 
-type WordCount struct {
-	Word  string `json:"word"`
-	Count uint32 `json:"count"`
-}
+var (
+	WordRe = regexp.MustCompile(`\w+`)
+)
 
 type request struct {
 	Text string `json:"text"`
 }
 
 type response struct {
-	Result []WordCount `json:"result"`
+	Result []logic.WordCount `json:"result"`
 }
 
 func wordCount(w http.ResponseWriter, req *http.Request) {
