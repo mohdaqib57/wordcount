@@ -2,9 +2,25 @@ package logic
 
 import "sort"
 
-type WordCount struct {
-	Word  string `json:"word"`
-	Count uint32 `json:"count"`
+// CountAndLimitSort is to count, sort and limit to only show the top ten most used words
+func CountAndLimitSort(req []string) []WordCount {
+	s := Sort(Count(req))
+
+	// only get top ten
+	if len(s) > 10 {
+		res := make([]WordCount, 0)
+
+		for i, v := range s {
+			res = append(res, WordCount{Word: v.Word, Count: v.Count})
+
+			if i == 9 {
+				break
+			}
+		}
+		return res
+	}
+
+	return s
 }
 
 func Count(words []string) map[string]uint32 {
